@@ -11,6 +11,7 @@
 
     <ItemGroup>
       <Compile Remove="releases\**" />
+      <Compile Remove="build/**/*.cs" />
       <EmbeddedResource Remove="releases\**" />
       <None Remove="releases\**" />
     </ItemGroup>
