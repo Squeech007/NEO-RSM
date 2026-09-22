@@ -1,0 +1,58 @@
+diff --git a/lcds.cs b/lcds.cs
+index 9740486..c635acc 100644
+--- a/lcds.cs
++++ b/lcds.cs
+@@ -54,7 +54,7 @@ namespace IngameScript
+                     lcd.ShowIntegrity = false;
+                     lcd.ShowAdvancedThrust = false;
+ 
+-                    sortRsmLcd(lcd, "hudlcd:-0.55:0.99:0.7") ;
++                    sortRsmLcd(lcd, "hudlcd:-0.55:0.99:0.7::background:range=750");
+                     continue;
+                 }
+ 
+@@ -69,7 +69,7 @@ namespace IngameScript
+                     lcd.ShowIntegrity = false;
+                     lcd.ShowAdvancedThrust = false;
+ 
+-                    sortRsmLcd(lcd, "hudlcd:0.22:0.99:0.55");
++                    sortRsmLcd(lcd, "hudlcd:0.12:0.99:0.6::background:range=750");
+                     continue;
+                 }
+ 
+@@ -84,7 +84,7 @@ namespace IngameScript
+                     lcd.ShowIntegrity = false;
+                     lcd.ShowAdvancedThrust = false;
+ 
+-                    sortRsmLcd(lcd, "hudlcd:0.48:0.99:0.55");
++                    sortRsmLcd(lcd, "hudlcd:0.4:0.99:0.6::background:range=750");
+                     continue;
+                 }
+ 
+@@ -99,7 +99,7 @@ namespace IngameScript
+                     lcd.ShowIntegrity = true;
+                     lcd.ShowAdvancedThrust = false;
+ 
+-                    sortRsmLcd(lcd, "hudlcd:0.74:0.99:0.55");
++                    sortRsmLcd(lcd, "hudlcd:0.73:0.59:0.6::background:range=750");
+                     continue;
+                 }
+ 
+@@ -114,7 +114,7 @@ namespace IngameScript
+                     lcd.ShowIntegrity = false;
+                     lcd.ShowAdvancedThrust = true;
+ 
+-                    sortRsmLcd(lcd, "hudlcd:0.75:0:.54");
++                    sortRsmLcd(lcd, "hudlcd:0.73:0.2:.6::background:range=750");
+                     continue;
+                 }
+ 
+@@ -129,7 +129,7 @@ namespace IngameScript
+                     lcd.ShowIntegrity = false;
+                     lcd.ShowAdvancedThrust = false;
+ 
+-                    sortRsmLcd(lcd, "hudlcd:-0.55:0.99:0.7");
++                    sortRsmLcd(lcd, "hudlcd:-0.55:0.99:0.7:::range=750");
+                     continue;
+                 }
+             }

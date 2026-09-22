@@ -69,7 +69,7 @@ namespace IngameScript
         LightToggleModes _defaultInteriorLightMode = LightToggleModes.On;
         Color _defaultInteriorLightColour = new Color(255, 214, 170, 255); // 100W Tungsten
         LightToggleModes _defaultNavLightMode = LightToggleModes.On;
-        Color _defaultLcdTextColour = new Color(33, 144, 255, 255); // reedit blue
+        Color _defaultLcdTextColour = new Color(255, 255, 255, 255); // custom white
         TankAndBatteryModes _defaultTankAndBatteryMode = TankAndBatteryModes.Auto;
         int _defaultBurnPercentage = -1; // no change
         ToggleModes _defaultEfcBoost = ToggleModes.NoChange;
