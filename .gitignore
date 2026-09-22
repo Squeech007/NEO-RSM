@@ -6,3 +6,5 @@
 /.vs
 img/Thumbs.db
 notes.md
+/build
+mdk-build.log
