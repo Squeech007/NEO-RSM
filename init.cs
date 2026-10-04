@@ -182,13 +182,54 @@ namespace IngameScript
                     }
                 }
 
-                BlockName.Key.CustomName =
+                string RetainedSuffix = retainSuffix(BlockName.Key.CustomName, ThisName);
+                string FinalName =
                     _shipName + _nameDelimiter
                     + ThisName
                     + BlockNumber
-                    + retainSuffix(BlockName.Key.CustomName, ThisName);
+                    + RetainedSuffix;
+
+                FinalName += retainInitMetadata(BlockName.Key.CustomName, FinalName);
+                BlockName.Key.CustomName = FinalName;
 
             }
+        }
+
+        bool initHasToken(string text, string token)
+        {
+            string t = " " + text.Replace(".", " ").Replace("_", " ").Replace("-", " ").Replace("[", " ").Replace("]", " ").Replace("(", " ").Replace(")", " ").ToLowerInvariant() + " ";
+            return t.Contains(" " + token.ToLowerInvariant() + " ");
+        }
+
+        string retainInitMetadata(string originalName, string finalName)
+        {
+            string result = "";
+            string[] tags = { "Special", "Any Item", "Ores", "Ingots", "Ingot", "Tools", "HUD1", "HUD2", "HUD3", "HUD4", "HUD5", "HUD6" };
+
+            foreach (string tag in tags)
+                if (initHasToken(originalName, tag) && !initHasToken(finalName + result, tag))
+                    result += _nameDelimiter + tag;
+
+            int p = originalName.IndexOf("[P", StringComparison.OrdinalIgnoreCase);
+            while (p >= 0)
+            {
+                int e = originalName.IndexOf("]", p + 2);
+                if (e < 0) break;
+
+                string digits = originalName.Substring(p + 2, e - p - 2);
+                int value;
+                if (digits.Length > 0 && int.TryParse(digits, out value) && value >= 0 && value <= 255)
+                {
+                    string priority = "P" + digits;
+                    if (!initHasToken(finalName + result, priority))
+                        result += _nameDelimiter + "[P" + digits + "]";
+                    break;
+                }
+
+                p = originalName.IndexOf("[P", p + 2, StringComparison.OrdinalIgnoreCase);
+            }
+
+            return result;
         }
 
         string retainSuffix(string name, string new_name = "")

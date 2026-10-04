@@ -190,7 +190,7 @@ string Version = "3.2.0 ($MDK_DATE$)";
                     return;
 
                 case "stance":
-                    setStance(args[1]);
+                    handleStanceCommand(args[1]);
                     return;
 
                 case "hudlcd":
@@ -353,6 +353,8 @@ string Version = "3.2.0 ($MDK_DATE$)";
 
             // run these things every time
             doThisStuffOften();
+
+            updateAutoStance();
 
             // it actually does the above things one at a time, the first time.
             // ie, it _isBooting.

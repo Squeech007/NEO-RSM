@@ -43,7 +43,7 @@ namespace IngameScript
                         InteriorLightColour = new Color(255, 214, 170, 255),
                         NavLightMode = LightToggleModes.On,
                         LcdTextColour = new Color(33, 144, 255, 255),
-                        TankAndBatteryMode = TankAndBatteryModes.Auto,
+                        TankAndBatteryMode = TankAndBatteryModes.StockpileRecharge,
                         BurnPercentage = 50,
                         EfcBoost = ToggleModes.NoChange,
                         KillOrAbortNavigation = KillOrAbortNavigationModes.Abort,
@@ -52,7 +52,7 @@ namespace IngameScript
                         KeepAlives = ToggleModes.On,
                         HangarDoorsMode = HangarDoorModes.NoChange,
                         HangarMode = ToggleModes.NoChange,
-                        RcsGyroscopeMode = RcsGyroscopeModes.On
+                        RcsGyroscopeMode = RcsGyroscopeModes.NoChange
                     }
                 },
                 {
@@ -71,7 +71,7 @@ namespace IngameScript
                         InteriorLightColour = new Color(23, 73, 186, 255),
                         NavLightMode = LightToggleModes.Off,
                         LcdTextColour = new Color(23, 73, 186, 255),
-                        TankAndBatteryMode = TankAndBatteryModes.Auto,
+                        TankAndBatteryMode = TankAndBatteryModes.StockpileRecharge,
                         BurnPercentage = 5,
                         EfcBoost = ToggleModes.Off,
                         KillOrAbortNavigation = KillOrAbortNavigationModes.Abort,
@@ -80,7 +80,7 @@ namespace IngameScript
                         KeepAlives = ToggleModes.On,
                         HangarDoorsMode = HangarDoorModes.NoChange,
                         HangarMode = ToggleModes.NoChange,
-                        RcsGyroscopeMode = RcsGyroscopeModes.On
+                        RcsGyroscopeMode = RcsGyroscopeModes.NoChange
                     }
                 },
                 {
@@ -136,7 +136,7 @@ namespace IngameScript
                         KeepAlives = ToggleModes.On,
                         HangarDoorsMode = HangarDoorModes.NoChange,
                         HangarMode = ToggleModes.NoChange,
-                        RcsGyroscopeMode = RcsGyroscopeModes.On
+                        RcsGyroscopeMode = RcsGyroscopeModes.NoChange
                     }
                 },
                 {
@@ -192,7 +192,35 @@ namespace IngameScript
                         KeepAlives = ToggleModes.On,
                         HangarDoorsMode = HangarDoorModes.NoChange,
                         HangarMode = ToggleModes.NoChange,
-                        RcsGyroscopeMode = RcsGyroscopeModes.On
+                        RcsGyroscopeMode = RcsGyroscopeModes.NoChange
+                    }
+                },
+                {
+                    "Hunting",
+                    new Stance{
+                        Inherits = "Combat",
+                        TorpedoMode = TorpedoModes.NoChange,
+                        PdcMode = PdcModes.AllDefence,
+                        RailgunMode = RailgunModes.OpenFire,
+                        MainDriveMode = MainDriveModes.On,
+                        ManeuveringThrusterMode = ManeuveringThrusterModes.On,
+                        SpotlightMode = SpotlightModes.Off,
+                        ExteriorLightMode = LightToggleModes.Off,
+                        ExteriorLightColour = new Color(0, 0, 0, 255),
+                        InteriorLightMode = LightToggleModes.On,
+                        InteriorLightColour = new Color(210, 98, 17, 255),
+                        NavLightMode = LightToggleModes.Off,
+                        LcdTextColour = new Color(210, 98, 17, 255),
+                        TankAndBatteryMode = TankAndBatteryModes.ManagedDischarge,
+                        BurnPercentage = 100,
+                        EfcBoost = ToggleModes.On,
+                        KillOrAbortNavigation = KillOrAbortNavigationModes.Abort,
+                        AuxMode = ToggleModes.On,
+                        ExtractorMode = ExtractorModes.KeepFull,
+                        KeepAlives = ToggleModes.On,
+                        HangarDoorsMode = HangarDoorModes.NoChange,
+                        HangarMode = ToggleModes.NoChange,
+                        RcsGyroscopeMode = RcsGyroscopeModes.NoChange
                     }
                 },
                 {
@@ -220,7 +248,7 @@ namespace IngameScript
                         KeepAlives = ToggleModes.On,
                         HangarDoorsMode = HangarDoorModes.NoChange,
                         HangarMode = ToggleModes.NoChange,
-                        RcsGyroscopeMode = RcsGyroscopeModes.On
+                        RcsGyroscopeMode = RcsGyroscopeModes.NoChange
                     }
                 },
                 {
@@ -248,7 +276,7 @@ namespace IngameScript
                         KeepAlives = ToggleModes.On,
                         HangarDoorsMode = HangarDoorModes.NoChange,
                         HangarMode = ToggleModes.NoChange,
-                        RcsGyroscopeMode = RcsGyroscopeModes.On
+                        RcsGyroscopeMode = RcsGyroscopeModes.NoChange
                     }
                 }
             };

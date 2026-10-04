@@ -132,6 +132,14 @@ namespace IngameScript
             }
         }
 
+        // SDX2 high-speed velocity fallback.
+        // Cortex proved the normal velocity API needs to be distrusted above its
+        // configured threshold on SDX2. Keep the normal RSM path below that
+        // threshold, then derive velocity from grid displacement at high speed.
+        private const double _velocityApiTrustSpeed = 800.0;
+        private Vector3D _velocityFallbackLastPosition = Vector3D.Zero;
+        private bool _velocityFallbackHasPosition = false;
+
         void updateTelemetry()
         {
             if (_shipController != null)
@@ -139,7 +147,35 @@ namespace IngameScript
                 try
                 {
                     // calculate current mass and velocity
-                    _shipVelocity = _shipController.GetShipSpeed();
+                    double apiVelocity = _shipController.GetShipSpeed();
+                    double sampleSeconds = Runtime.TimeSinceLastRun.TotalSeconds;
+                    Vector3D currentPosition = Me.CubeGrid.WorldAABB.Center;
+
+                    if (sampleSeconds > 0.001 && sampleSeconds < 10.0)
+                    {
+                        if (_velocityFallbackHasPosition &&
+                            apiVelocity >= _velocityApiTrustSpeed)
+                        {
+                            _shipVelocity =
+                                (currentPosition - _velocityFallbackLastPosition).Length() /
+                                sampleSeconds;
+                        }
+                        else
+                        {
+                            _shipVelocity = apiVelocity;
+                        }
+
+                        _velocityFallbackLastPosition = currentPosition;
+                        _velocityFallbackHasPosition = true;
+                    }
+                    else
+                    {
+                        // Do not use a stale displacement sample after a long pause.
+                        _velocityFallbackLastPosition = currentPosition;
+                        _velocityFallbackHasPosition = false;
+                        _shipVelocity = apiVelocity;
+                    }
+
                     _shipMass = _shipController.CalculateShipMass().PhysicalMass;
                 }
                 catch (Exception exxie)

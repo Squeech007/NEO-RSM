@@ -51,6 +51,7 @@ namespace IngameScript
 
         // the name of the current stance.
         string _currentStanceName = "N/A";
+        bool _reapplyStance = false;
 
         // the actual stance object
         Stance _currentStance;
@@ -95,6 +96,8 @@ namespace IngameScript
                     ));
                 return;
             }
+
+            if (!_reapplyStance && string.Equals(_currentStanceName, stance, StringComparison.OrdinalIgnoreCase)) return;
 
             if (_d) Echo("Setting stance '" + stance + "'.");
 

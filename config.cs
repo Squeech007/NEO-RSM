@@ -142,6 +142,10 @@ namespace IngameScript
             string sec = "";
             bool success = true;
 
+            // set when a setting new to this version wasn't found in the
+            // custom data. we write the ini back out at the end so the new
+            // keys actually turn up in the config for people to edit.
+            bool addedMissingKeys = false;
             // attempt to parse ini from the custom data
             MyIniParseResult result;
             if (!_config.TryParse(toParse, out result))
@@ -176,7 +180,56 @@ namespace IngameScript
                 _autoLoadReactors = _config.Get(sec, "AutoloadReactors").ToBoolean(_autoLoadReactors);
                 _autoConfigWeapons = _config.Get(sec, "AutoConfigWeapons").ToBoolean(_autoConfigWeapons);
                 _setTurretFireMode = _config.Get(sec, "SetTurretFireMode").ToBoolean(_setTurretFireMode);
-                
+
+                // AutoStance ------------------------------------------------------------
+
+                sec = "RSM.AutoStance"; Echo(sec);
+
+                if (!_config.ContainsKey(sec, "Enabled"))
+                {
+                    _config.Set(sec, "Enabled", _autoStanceEnabled);
+                    _config.SetComment(sec, "Enabled", "Enable automatic stance control.");
+                    addedMissingKeys = true;
+                }
+
+                if (!_config.ContainsKey(sec, "IdleStance"))
+                {
+                    _config.Set(sec, "IdleStance", _autoStanceIdle);
+                    addedMissingKeys = true;
+                }
+
+                if (!_config.ContainsKey(sec, "ThreatStance"))
+                {
+                    _config.Set(sec, "ThreatStance", _autoStanceThreatStance);
+                    addedMissingKeys = true;
+                }
+
+                if (!_config.ContainsKey(sec, "DockedStance"))
+                {
+                    _config.Set(sec, "DockedStance", _autoStanceDocked);
+                    addedMissingKeys = true;
+                }
+
+                if (!_config.ContainsKey(sec, "StanceDwellSec"))
+                {
+                    _config.Set(sec, "StanceDwellSec", _autoStanceDwellSec);
+                    addedMissingKeys = true;
+                }
+
+                if (!_config.ContainsKey(sec, "ClearThreatSec"))
+                {
+                    _config.Set(sec, "ClearThreatSec", _autoStanceClearSec);
+                    addedMissingKeys = true;
+                }
+
+                _autoStanceEnabled = _config.Get(sec, "Enabled").ToBoolean(_autoStanceEnabled);
+                _autoStanceIdle = _config.Get(sec, "IdleStance").ToString(_autoStanceIdle);
+                _autoStanceThreatStance = _config.Get(sec, "ThreatStance").ToString(_autoStanceThreatStance);
+                _autoStanceDocked = _config.Get(sec, "DockedStance").ToString(_autoStanceDocked);
+                _autoStanceDwellSec = Math.Max(0, _config.Get(sec, "StanceDwellSec").ToDouble(_autoStanceDwellSec));
+                _autoStanceClearSec = Math.Max(0, _config.Get(sec, "ClearThreatSec").ToDouble(_autoStanceClearSec));
+                _autoStanceConfigLoaded = true;
+
                 // Spawns -----------------------------------------------------------------
 
                 sec = "RSM.Spawns"; Echo(sec);
@@ -302,10 +355,6 @@ namespace IngameScript
 
             Dictionary<string, Stance> newStances = new Dictionary<string, Stance>();
 
-            // set when a setting new to this version wasn't found in the
-            // custom data. we write the ini back out at the end so the new
-            // keys actually turn up in the config for people to edit.
-            bool addedMissingKeys = false;
 
             // get all sections
             List<string> sections = new List<string>();
@@ -624,6 +673,7 @@ namespace IngameScript
             sec = "RSM.Stance"; Echo(sec);
 
             _currentStanceName = _config.Get(sec, "CurrentStance").ToString(_currentStanceName);
+            _reapplyStance = _config.Get(sec, "ReapplyStance").ToBoolean(_reapplyStance);
 
             // set the _currentStance var
             Stance newCurrentStance;
@@ -676,6 +726,37 @@ namespace IngameScript
             name = "SetTurretFireMode";
             _config.Set(sec, name, _setTurretFireMode);
             _config.SetComment(sec, name, "set turret fire mode based on stance");
+
+            // AutoStance ------------------------------------------------------------
+
+            sec = "RSM.AutoStance";
+
+            name = "Enabled";
+            _config.Set(sec, name, _autoStanceEnabled);
+            _config.SetComment(sec, name, "enable automatic stance control");
+
+            name = "IdleStance";
+            _config.Set(sec, name, _autoStanceIdle);
+            _config.SetComment(sec, name, "stance used when no threat is present");
+
+            name = "ThreatStance";
+            _config.Set(sec, name, _autoStanceThreatStance);
+            _config.SetComment(sec, name, "stance used while a WeaponCore threat is detected");
+
+            name = "DockedStance";
+            _config.Set(sec, name, _autoStanceDocked);
+            _config.SetComment(sec, name, "stance used while a ship connector is connected");
+
+            name = "StanceDwellSec";
+            _config.Set(sec, name, _autoStanceDwellSec);
+            _config.SetComment(sec, name, "minimum delay before an automatic stance change");
+
+            name = "ClearThreatSec";
+            _config.Set(sec, name, _autoStanceClearSec);
+            _config.SetComment(sec, name, "delay after threat disappears before returning to idle stance");
+
+            // Restore the original section before writing the main header comment.
+            sec = "RSM.Main";
 
             // Header -----------------------------------------------------------------
             
@@ -844,6 +925,9 @@ namespace IngameScript
 
             name = "CurrentStance";
             _config.Set(sec, name, _currentStanceName);
+
+            name = "ReapplyStance";
+            _config.Set(sec, name, _reapplyStance);
 
             _config.SetSectionComment(sec, _configDiv + " Stances\n Add or remove as required\n" + _configDiv);
 

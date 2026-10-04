@@ -477,7 +477,7 @@ namespace IngameScript
                             double Max = b.GetInventory().MaxVolume.RawValue;
                             double VolumeFactor = Math.Round(Max / 421875000, 1);
                             if (VolumeFactor == 0) VolumeFactor = 0.1;
-                            _initNames.Add(b, "Cargo [" + VolumeFactor + "]");
+                            _initNames.Add(b, "Cargo");
                         }
                         return false;
                     }
